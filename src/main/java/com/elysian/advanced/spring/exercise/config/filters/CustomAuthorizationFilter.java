@@ -18,7 +18,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -29,16 +28,17 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @Slf4j
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
-    @Override protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
                                               FilterChain filterChain) throws ServletException, IOException {
-        if (request.getServletPath().equals("/api/login")) {
+        if (request.getServletPath().equals("/api.currentsapi.services/v1/login") || request.getServletPath().equals("/api.currentsapi.services/v1/token/refreshToken") ) {
             filterChain.doFilter(request, response);
         } else {
             String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
             if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
                 try {
                     String token = authorizationHeader.substring("Bearer ".length());
-                    Algorithm algorithm = Algorithm.HMAC256("secret".getBytes(StandardCharsets.UTF_8));
+                    Algorithm algorithm = Algorithm.HMAC256("mysecrettokentogeneratekey".getBytes());
                     JWTVerifier verifier = JWT.require(algorithm).build();
                     DecodedJWT decodedJWT = verifier.verify(token);
                     String username = decodedJWT.getSubject();
@@ -56,13 +56,10 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
                     log.error("Error login in {}", exception.getMessage());
                     response.setHeader("error", exception.getMessage());
                     response.setStatus(HttpStatus.FORBIDDEN.value());
-                    //response.sendError(HttpStatus.FORBIDDEN.value());
-                    Map<String, String> tokens = new HashMap<>();
-                    tokens.put("error", exception.getMessage());
+                    Map<String, String> error = new HashMap<>();
+                    error.put("error_message", exception.getMessage());
                     response.setContentType(APPLICATION_JSON_VALUE);
-                    new ObjectMapper().writeValue(response.getOutputStream(), tokens);
-
-
+                    new ObjectMapper().writeValue(response.getOutputStream(), error);
                 }
             } else {
                 filterChain.doFilter(request, response);

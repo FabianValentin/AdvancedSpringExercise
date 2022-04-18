@@ -24,7 +24,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserDetailsService userDetailsService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
     @Override protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder);
     }
@@ -35,22 +34,22 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
 
         //change url from /login to /api/login
-        customAuthenticationFilter.setFilterProcessesUrl("/api/login");
-
+        customAuthenticationFilter.setFilterProcessesUrl("/api.currentsapi.services/v1/login");
+        http.formLogin();
+        http.httpBasic();
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.authorizeRequests().antMatchers("/api/login").permitAll();
-
-        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api/user/**").hasAnyAuthority("USER");
-        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api/user/save/**").hasAnyAuthority("ADMIN");
-
+        http.authorizeRequests().antMatchers("/api.currentsapi.services/v1/login/**", "/api.currentsapi.services/v1/token/refreshToken/**").permitAll();
+        http.authorizeRequests().antMatchers(HttpMethod.GET, "/api.currentsapi.services/v1/user/**").hasAnyAuthority("USER");
+        http.authorizeRequests().antMatchers(HttpMethod.POST, "/api.currentsapi.services/v1/user/save/**").hasAnyAuthority("ADMIN");
         http.authorizeRequests().anyRequest().authenticated();
 
         http.addFilter(customAuthenticationFilter);
-
         http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
+
 
     @Bean
     @Override

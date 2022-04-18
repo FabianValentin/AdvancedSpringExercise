@@ -10,13 +10,24 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface NewsRepository extends JpaRepository<News, Integer> {
+public interface NewsRepository extends JpaRepository<News, Integer>, CustomNewsRepository {
 
     @Cacheable(cacheNames = "news_by_author", key = "#author")
     List<News> getByAuthor(String author);
 
+    @Cacheable(cacheNames = "news_by_language", key = "#language")
+    List<News> getByLanguage(String language);
+
+
     @Scheduled(cron = "0 0/30 * * * ?")
     @CacheEvict(value = "news_by_author")
-    default void clearNewsByAuthorCache() {
+    default void clearNewsByAuthorCache(){
+
+    }
+
+    @Scheduled(cron = "0 0/30 * * * ?")
+    @CacheEvict(value = "news_by_language")
+    default void clearNewsByLanguageCache(){
+
     }
 }
