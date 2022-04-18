@@ -6,26 +6,6 @@
 	},
 	"item": [
 		{
-			"name": "get_all_news_by_author",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "localhost:8080/news/getNewsByAuthor/first%20sport%20news%20author",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"news",
-						"getNewsByAuthor",
-						"first%20sport%20news%20author"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "create_news",
 			"event": [
 				{
@@ -44,7 +24,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"author\": \"new sport news author\",\r\n    \"category\": \"sport\",\r\n    \"description\": \"sport news\",\r\n    \"id\": 4,\r\n    \"image\": \"forth news sport image\",\r\n    \"language\": \"en\",\r\n    \"published\": \"{{current_timestamp}}\",\r\n    \"title\": \"forth sport news\",\r\n    \"url\": \"https://news/sport/4\"\r\n}",
+					"raw": "{\r\n    \"author\": \"sport news author\",\r\n    \"category\": \"sport\",\r\n    \"description\": \"sport news\",\r\n    \"id\": 1,\r\n    \"image\": \"first news sport image\",\r\n    \"language\": \"en\",\r\n    \"published\": \"{{current_timestamp}}\",\r\n    \"title\": \"first sport news\",\r\n    \"url\": \"https://news/sport/1\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -52,13 +32,14 @@
 					}
 				},
 				"url": {
-					"raw": "localhost:8080/news/createNews",
+					"raw": "localhost:8080/api.currentsapi.services/v1/createNews",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"news",
+						"api.currentsapi.services",
+						"v1",
 						"createNews"
 					]
 				}
@@ -72,16 +53,28 @@
 				"header": [],
 				"body": {
 					"mode": "urlencoded",
-					"urlencoded": []
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "user2",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
 				},
 				"url": {
-					"raw": "localhost:8080/api/login",
+					"raw": "localhost:8080/api.currentsapi.services/v1/login",
 					"host": [
 						"localhost"
 					],
 					"port": "8080",
 					"path": [
-						"api",
+						"api.currentsapi.services",
+						"v1",
 						"login"
 					]
 				}
@@ -92,7 +85,26 @@
 			"name": "refresh_token",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsImlzcyI6Imh0dHA6Ly9sb2NhbGhvc3Q6ODA4MC9hcGkuY3VycmVudHNhcGkuc2VydmljZXMvdjEvbG9naW4iLCJleHAiOjE2NTAyODUzNDB9.blY2KCRdI3coYMVCQ-mgQqfxa7ia-dMvXQeH1YopgwE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/token/refreshToken",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"token",
+						"refreshToken"
+					]
+				}
 			},
 			"response": []
 		},
@@ -132,15 +144,166 @@
 			"name": "custom search language and author",
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4NDE0MH0.L0txkYy2P37ZU2ewxQYyte6_r-TSnD8B1J-jNpXjKWA",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/search?language=en&author=sport%20news%20author",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"search"
+					],
+					"query": [
+						{
+							"key": "language",
+							"value": "en"
+						},
+						{
+							"key": "author",
+							"value": "sport%20news%20author"
+						}
+					]
+				}
 			},
 			"response": []
 		},
 		{
-			"name": "custom search language and author Copy",
+			"name": "get news by author",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
 			"request": {
 				"method": "GET",
-				"header": []
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4MzQwOX0.JY8bg_FeUiN-tq0rG2GIlptJezM4PUv89iz4ghmeiKE",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "user1",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/getNewsByAuthor/sport%20news%20author",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"getNewsByAuthor",
+						"sport%20news%20author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get available languages",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4NzQ4MH0.DBIFKmnAwjTEKyW6ndsIfNeGb6gN6XkHa-RxTgbb9NY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/available/languages",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"available",
+						"languages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get available categories",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4NzQ4MH0.DBIFKmnAwjTEKyW6ndsIfNeGb6gN6XkHa-RxTgbb9NY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/available/categories",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"available",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get latest news by language",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4NzQ4MH0.DBIFKmnAwjTEKyW6ndsIfNeGb6gN6XkHa-RxTgbb9NY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/search?language=en",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"search"
+					],
+					"query": [
+						{
+							"key": "language",
+							"value": "en"
+						}
+					]
+				}
 			},
 			"response": []
 		}

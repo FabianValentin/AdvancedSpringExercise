@@ -2,13 +2,13 @@ package com.elysian.advanced.spring.exercise.services;
 
 import com.elysian.advanced.spring.exercise.models.News;
 import com.elysian.advanced.spring.exercise.repositories.NewsRepository;
+import com.elysian.advanced.spring.exercise.responses.AvailableCategoriesResponseDTO;
+import com.elysian.advanced.spring.exercise.responses.AvailableLanguagesResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class NewsService {
@@ -28,8 +28,8 @@ public class NewsService {
         return newsRepository.getByAuthor(author);
     }
 
-    public List<News> getNewsByLanguage(final String language){
-        return newsRepository.getByLanguage(language).stream().sorted(newsDateComparator).collect(Collectors.toList());
+    public List<News> getNewsByLanguageOrderByPublished(final String language){
+        return newsRepository.getAllByLanguageOrderByPublishedDesc(language);
     }
 
     public List<News> findBySpecialSearch(final Map<String, String> searchFilters) {
@@ -37,9 +37,18 @@ public class NewsService {
         return newsRepository.findAllByCustomSearch(searchFilters);
     }
 
-    public static Comparator< News > newsDateComparator = new Comparator<News>() {
-        @Override public int compare(News o1, News o2) {
-            return o1.getPublished().compareTo(o2.getPublished());
-        }
-    };
+    public AvailableLanguagesResponseDTO getAvailableLanguages(){
+        List<String> languages = newsRepository.getAvailableLanguages();
+        AvailableLanguagesResponseDTO availableLanguagesResponseDTO = new AvailableLanguagesResponseDTO();
+        availableLanguagesResponseDTO.setAvailableLanguages(languages);
+        return availableLanguagesResponseDTO;
+    }
+
+    public AvailableCategoriesResponseDTO getAvailableCategories(){
+        List<String> categories = newsRepository.getAvailableCategories();
+        AvailableCategoriesResponseDTO availableCategoriesResponseDTO = new AvailableCategoriesResponseDTO();
+        availableCategoriesResponseDTO.setAvailableCategories(categories);
+        return availableCategoriesResponseDTO;
+    }
+
 }

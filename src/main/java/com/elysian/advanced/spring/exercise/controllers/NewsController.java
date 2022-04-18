@@ -1,6 +1,8 @@
 package com.elysian.advanced.spring.exercise.controllers;
 
 import com.elysian.advanced.spring.exercise.models.News;
+import com.elysian.advanced.spring.exercise.responses.AvailableCategoriesResponseDTO;
+import com.elysian.advanced.spring.exercise.responses.AvailableLanguagesResponseDTO;
 import com.elysian.advanced.spring.exercise.services.NewsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,9 +60,19 @@ public class NewsController {
     @GetMapping("/latest-news")
     public List<News> getLatestNews(@RequestParam String language){
         LOGGER.info("Start time: {}", new Date(System.currentTimeMillis()));
-        List<News> news = newsService.getNewsByLanguage(language);
+        List<News> news = newsService.getNewsByLanguageOrderByPublished(language);
         LOGGER.info("Stop time: {}", new Date(System.currentTimeMillis()));
         return news;
+    }
+
+    @GetMapping("/available/languages")
+    public AvailableLanguagesResponseDTO getAvailableLanguages() {
+        return newsService.getAvailableLanguages();
+    }
+
+    @GetMapping("/available/categories")
+    public AvailableCategoriesResponseDTO getAvailableCategories() {
+        return newsService.getAvailableCategories();
     }
 
 }

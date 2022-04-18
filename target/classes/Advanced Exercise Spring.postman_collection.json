@@ -1,0 +1,148 @@
+{
+	"info": {
+		"_postman_id": "8a014fb9-2604-4e86-9e34-cbc13588259f",
+		"name": "Advanced Exercise Spring",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "get_all_news_by_author",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/news/getNewsByAuthor/first%20sport%20news%20author",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"news",
+						"getNewsByAuthor",
+						"first%20sport%20news%20author"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create_news",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"var current_timestamp = new Date();\r",
+							"postman.setEnvironmentVariable(\"current_timestamp\", current_timestamp.toISOString());"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"author\": \"new sport news author\",\r\n    \"category\": \"sport\",\r\n    \"description\": \"sport news\",\r\n    \"id\": 4,\r\n    \"image\": \"forth news sport image\",\r\n    \"language\": \"en\",\r\n    \"published\": \"{{current_timestamp}}\",\r\n    \"title\": \"forth sport news\",\r\n    \"url\": \"https://news/sport/4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/news/createNews",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"news",
+						"createNews"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": []
+				},
+				"url": {
+					"raw": "localhost:8080/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refresh_token",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "custom search language",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMiIsInJvbGVzIjpbIlVTRVIiXSwiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo4MDgwL2FwaS5jdXJyZW50c2FwaS5zZXJ2aWNlcy92MS9sb2dpbiIsImV4cCI6MTY1MDI4MzQwOX0.JY8bg_FeUiN-tq0rG2GIlptJezM4PUv89iz4ghmeiKE",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "localhost:8080/api.currentsapi.services/v1/search?language=en",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api.currentsapi.services",
+						"v1",
+						"search"
+					],
+					"query": [
+						{
+							"key": "language",
+							"value": "en"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "custom search language and author",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "custom search language and author Copy",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
